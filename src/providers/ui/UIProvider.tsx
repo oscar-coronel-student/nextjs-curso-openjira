@@ -15,7 +15,7 @@ export const UIProvider = ({ children }: Props) => {
     return <>
         <UIContext.Provider
             value={{
-                isSidebarOpen: uiState.isSidebarOpen,
+                ...uiState,
                 uiDispatch
             }}
         >

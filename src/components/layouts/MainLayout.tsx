@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const MainLayout = ({ title, children }: Props) => {
+
   return <>
     <Box sx={{
       flexFlow: 1,

@@ -1,4 +1,4 @@
-import { UIInitState, UIReducerActions } from "@/src/interfaces"
+import { UIInitState, UIReducerActions } from '@/src/interfaces';
 
 
 export const uiInitState: UIInitState = {
@@ -8,9 +8,15 @@ export const uiInitState: UIInitState = {
 export const uiReducer = ( state: UIInitState, action: UIReducerActions): UIInitState => {
 
     switch( action.type ){
-        case 'Action':
+        case 'OpenSideBar':
             return {
-                ...state
+                ...state,
+                isSidebarOpen: true
+            }
+        case 'CloseSideBar':
+            return {
+                ...state,
+                isSidebarOpen: false
             }
         default:
             return state

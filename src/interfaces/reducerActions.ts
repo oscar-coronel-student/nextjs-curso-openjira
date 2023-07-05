@@ -3,4 +3,5 @@ export interface UIInitState {
 }
 
 export type UIReducerActions = 
-    |{type: 'Action', payload: any};
+    |{type: 'OpenSideBar'}
+    |{type: 'CloseSideBar'}
