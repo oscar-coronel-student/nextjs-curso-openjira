@@ -1,8 +1,13 @@
 import { Dispatch } from "react";
-import { UIReducerActions } from "./reducerActions";
+import { EntryReducerActions, UIReducerActions } from "./reducerActions";
 
 
 export interface UIContextProps {
     isSidebarOpen: boolean
     uiDispatch: Dispatch<UIReducerActions>
+}
+
+export interface EntryContextProps {
+    entries: [],
+    entryDispatch: Dispatch<EntryReducerActions>
 }
