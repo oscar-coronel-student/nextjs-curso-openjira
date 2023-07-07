@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { EntryReducerActions, UIReducerActions } from "./reducerActions";
+import { Entry, EntryReducerActions, UIReducerActions } from "./reducerActions";
 
 
 export interface UIContextProps {
@@ -8,6 +8,6 @@ export interface UIContextProps {
 }
 
 export interface EntryContextProps {
-    entries: [],
+    entries: Entry[],
     entryDispatch: Dispatch<EntryReducerActions>
 }
