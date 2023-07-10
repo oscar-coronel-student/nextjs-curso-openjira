@@ -20,7 +20,7 @@ export const EntryList = ({ status }: Props) => {
 
     return <>
         <div>
-            <Paper sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', backgroundColor: 'transparent', padding: '0px 5px' }}>
+            <Paper sx={{ height: 'calc(100vh - 230px)', overflow: 'auto', backgroundColor: 'transparent', padding: '0px 5px' }}>
                 { /* TODO: CAMBIARA DEPENDIENDO SI ESTOY HACIENDO UN DRAG O NO */ }
                 <List sx={{ opacity: 1 }}>
                     {

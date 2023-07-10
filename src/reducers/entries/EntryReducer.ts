@@ -30,7 +30,8 @@ export const entryReducer = ( state: EntryInitState, action: EntryReducerActions
     switch( action.type ){
         case 'AddEntry':
             return {
-                ...state
+                ...state,
+                entries: [ ...state.entries, action.payload ]
             }
         default:
             return state
