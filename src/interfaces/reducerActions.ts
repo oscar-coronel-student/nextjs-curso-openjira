@@ -1,11 +1,13 @@
 //#region UI REDUCER
 export interface UIInitState {
     isSidebarOpen: boolean
+    isAddingEntry: boolean
 }
 
 export type UIReducerActions = 
     |{type: 'OpenSideBar'}
     |{type: 'CloseSideBar'}
+    |{type: 'SetIsAddingEntry', payload: boolean}
 //#endregion
 
 

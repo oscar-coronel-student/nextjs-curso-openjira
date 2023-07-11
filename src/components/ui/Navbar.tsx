@@ -3,12 +3,11 @@ import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
 import { UIContext } from "@/src/context/ui";
-import { OpenSideBar } from "@/src/actions";
 
 
 export const Navbar = () => {
 
-    const { uiDispatch } = useContext(UIContext);
+    const { openSideBar } = useContext(UIContext);
 
     return <>
         <AppBar position='sticky'>
@@ -16,7 +15,7 @@ export const Navbar = () => {
                 <IconButton
                     size='large'
                     edge='start'
-                    onClick={ () => uiDispatch(OpenSideBar()) }
+                    onClick={ openSideBar }
                 >
                     <MenuOutlinedIcon />
                 </IconButton>

@@ -1,10 +1,10 @@
-import { Dispatch } from "react";
-import { Entry, EntryReducerActions, EntryStatus, UIReducerActions } from "./reducerActions";
+import { Entry, EntryStatus, UIInitState } from "./reducerActions";
 
 
-export interface UIContextProps {
-    isSidebarOpen: boolean
-    uiDispatch: Dispatch<UIReducerActions>
+export interface UIContextProps extends UIInitState {
+    openSideBar: () => void
+    closeSideBar: () => void
+    setIsAddingEntry: (isAdding: boolean) => void
 }
 
 export interface EntryContextProps {

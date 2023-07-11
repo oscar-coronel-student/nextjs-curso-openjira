@@ -4,20 +4,19 @@ import InboxOutlinedIcon from '@mui/icons-material/InboxOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import { useContext } from 'react';
 import { UIContext } from '@/src/context/ui';
-import { CloseSideBar } from '@/src/actions';
 
 
 const menuItems: string[] = ['Inbox', 'Starred', 'Send Email', 'Drafts']
 
 export const  Sidebar = () => {
 
-    const { isSidebarOpen, uiDispatch } = useContext(UIContext);
+    const { isSidebarOpen, closeSideBar } = useContext(UIContext);
 
     return <>
         <Drawer
             anchor='left'
             open={ isSidebarOpen }
-            onClose={ () => uiDispatch(CloseSideBar()) }
+            onClose={ closeSideBar }
         >
             <Box sx={{ width: 250 }}>
                 <Box sx={{ padding: '5px 10px' }}>

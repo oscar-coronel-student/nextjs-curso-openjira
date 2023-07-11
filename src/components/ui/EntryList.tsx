@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, DragEvent } from 'react';
 import { Paper, List } from '@mui/material';
 
 import { EntryContext } from '@/src/context';
@@ -18,8 +18,21 @@ export const EntryList = ({ status }: Props) => {
         return entries.filter( entry => entry.status === status );
     }, [status, entries]);
 
+
+    const onDropEntry = ( event: DragEvent<HTMLDivElement> ) => {
+        const _id: string = event.dataTransfer.getData('text');
+    }
+    
+    const allowDrop = ( event: DragEvent<HTMLDivElement> ) => {
+        event.preventDefault();
+    }
+
+
     return <>
-        <div>
+        <div
+            onDrop={ onDropEntry }
+            onDragOver={ allowDrop }
+        >
             <Paper sx={{ height: 'calc(100vh - 230px)', overflow: 'auto', backgroundColor: 'transparent', padding: '0px 5px' }}>
                 { /* TODO: CAMBIARA DEPENDIENDO SI ESTOY HACIENDO UN DRAG O NO */ }
                 <List sx={{ opacity: 1 }}>
@@ -29,6 +42,7 @@ export const EntryList = ({ status }: Props) => {
                                 key={ entry._id }
                                 description={ entry.description }
                                 createdAt={ entry.createdAt }
+                                _id={ entry._id }
                             />
                         })
                     }

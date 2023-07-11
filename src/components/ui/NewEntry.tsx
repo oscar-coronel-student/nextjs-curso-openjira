@@ -2,9 +2,7 @@ import { ChangeEvent, useState, useContext } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import { EntryContext } from '@/src/context';
-import { AddEntry } from '@/src/actions';
-import { getUUID } from '@/src/utils/general';
+import { EntryContext, UIContext } from '@/src/context';
 import { EntryStatus } from '@/src/interfaces';
 
 
@@ -14,7 +12,7 @@ interface Props {
 
 export const NewEntry = ({ status }: Props) => {
 
-    const [isAdding, setIsAdding] = useState<boolean>(false);
+    const { isAddingEntry, setIsAddingEntry } = useContext( UIContext );
     const [inputValue, setInputValue] = useState<string>('');
     const [isFocus, setIsFocus] = useState<boolean>(false);
 
@@ -22,11 +20,12 @@ export const NewEntry = ({ status }: Props) => {
 
 
     const onPressAddIcon = () => {
-        setIsAdding(true);
+        setIsAddingEntry(true);
     }
 
     const onCancel = () => {
-        setIsAdding(false);
+        setInputValue('');
+        setIsAddingEntry(false);
     }
 
     const onChangeInputValue = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,14 +36,14 @@ export const NewEntry = ({ status }: Props) => {
         if( inputValue.length === 0 ) return
 
         addEntry(inputValue, status);
-        setIsAdding(false);
+        setIsAddingEntry(false);
         setInputValue('');
     }
 
     return <>
         <Box sx={{ marginBottom: 2, paddingX: 1 }}>
             {
-                !isAdding 
+                !isAddingEntry 
                 ? <>
                     <Button
                         startIcon={ <AddCircleOutlineOutlinedIcon /> }

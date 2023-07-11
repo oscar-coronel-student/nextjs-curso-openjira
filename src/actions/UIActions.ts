@@ -12,3 +12,10 @@ export const CloseSideBar = (): UIReducerActions => {
         type: 'CloseSideBar'
     }
 }
+
+export const SetIsAddingEntry = (payload: boolean): UIReducerActions => {
+    return {
+        type: 'SetIsAddingEntry',
+        payload
+    }
+}
