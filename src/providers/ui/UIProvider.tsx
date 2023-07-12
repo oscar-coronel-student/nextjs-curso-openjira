@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 
 import { UIContext } from '../../context/ui';
 import { uiInitState, uiReducer } from '@/src/reducers/ui';
-import { CloseSideBar, OpenSideBar, SetIsAddingEntry } from '@/src/actions';
+import { CloseSideBar, OpenSideBar, SetIsAddingEntry, SetIsDragging } from '@/src/actions';
 
 
 interface Props {
@@ -17,6 +17,7 @@ export const UIProvider = ({ children }: Props) => {
     const closeSideBar = () => uiDispatch( CloseSideBar() )
 
     const setIsAddingEntry = (isAdding: boolean) => uiDispatch( SetIsAddingEntry(isAdding) );
+    const setIsDragging = (isDragging: boolean) => uiDispatch( SetIsDragging(isDragging) );
     
     return <>
         <UIContext.Provider
@@ -24,7 +25,8 @@ export const UIProvider = ({ children }: Props) => {
                 ...uiState,
                 openSideBar,
                 closeSideBar,
-                setIsAddingEntry
+                setIsAddingEntry,
+                setIsDragging
             }}
         >
             { children }

@@ -5,6 +5,7 @@ export interface UIContextProps extends UIInitState {
     openSideBar: () => void
     closeSideBar: () => void
     setIsAddingEntry: (isAdding: boolean) => void
+    setIsDragging: (isDragging: boolean) => void
 }
 
 export interface EntryContextProps {

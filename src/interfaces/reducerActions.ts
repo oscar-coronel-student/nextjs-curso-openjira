@@ -2,12 +2,14 @@
 export interface UIInitState {
     isSidebarOpen: boolean
     isAddingEntry: boolean
+    isDragging: boolean
 }
 
 export type UIReducerActions = 
     |{type: 'OpenSideBar'}
     |{type: 'CloseSideBar'}
     |{type: 'SetIsAddingEntry', payload: boolean}
+    |{type: 'SetIsDragging', payload: boolean}
 //#endregion
 
 

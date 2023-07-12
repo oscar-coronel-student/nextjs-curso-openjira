@@ -5,16 +5,20 @@ import { Entry } from '@/src/interfaces';
 
 
 interface Props extends Pick<Entry, '_id'|'description'|'createdAt'> {
+    handleDrag: (isDragging: boolean) => void
 }
 
-export const EntryCard = memo(({ _id, description, createdAt }: Props) => {
+export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Props) => {
 
     const onDragStart = ( event: DragEvent<HTMLDivElement> ) => {
         event.dataTransfer.setData('text', _id);
+        handleDrag(true);
     }
 
     const onDragEnd = ( event: DragEvent<HTMLDivElement> ) => {
         // todo: cancelar ondrag
+
+        handleDrag(false);
     }
 
     return <>

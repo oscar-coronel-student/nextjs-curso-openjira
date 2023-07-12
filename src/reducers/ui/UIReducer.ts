@@ -3,7 +3,8 @@ import { UIInitState, UIReducerActions } from '@/src/interfaces';
 
 export const uiInitState: UIInitState = {
     isSidebarOpen: false,
-    isAddingEntry: false
+    isAddingEntry: false,
+    isDragging: false
 }
 
 export const uiReducer = ( state: UIInitState, action: UIReducerActions): UIInitState => {
@@ -23,6 +24,11 @@ export const uiReducer = ( state: UIInitState, action: UIReducerActions): UIInit
             return {
                 ...state,
                 isAddingEntry: action.payload
+            }
+        case 'SetIsDragging':
+            return {
+                ...state,
+                isDragging: action.payload
             }
         default:
             return state

@@ -19,3 +19,10 @@ export const SetIsAddingEntry = (payload: boolean): UIReducerActions => {
         payload
     }
 }
+
+export const SetIsDragging = (payload: boolean): UIReducerActions => {
+    return {
+        type: 'SetIsDragging',
+        payload
+    }
+}
