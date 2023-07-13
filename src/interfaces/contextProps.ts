@@ -11,4 +11,5 @@ export interface UIContextProps extends UIInitState {
 export interface EntryContextProps {
     entries: Entry[],
     addEntry: (description: string, status: EntryStatus) => void
+    editEntry: (entryUpdated: Entry) => void
 }

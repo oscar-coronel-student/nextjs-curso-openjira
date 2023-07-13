@@ -33,6 +33,11 @@ export const entryReducer = ( state: EntryInitState, action: EntryReducerActions
                 ...state,
                 entries: [ ...state.entries, action.payload ]
             }
+        case 'EditEntry':
+            return {
+                ...state,
+                entries: state.entries.map( entry => entry._id === action.payload._id ? action.payload : entry )
+            }
         default:
             return state
     }

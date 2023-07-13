@@ -2,7 +2,7 @@ import { useContext, useMemo, DragEvent, useCallback } from 'react';
 import { Paper, List } from '@mui/material';
 
 import { EntryContext, UIContext } from '@/src/context';
-import { EntryStatus } from '@/src/interfaces';
+import { Entry, EntryStatus } from '@/src/interfaces';
 import { EntryCard } from './EntryCard';
 
 import styles from './EntryList.module.css';
@@ -14,7 +14,7 @@ interface Props {
 
 export const EntryList = ({ status }: Props) => {
 
-    const { entries } = useContext( EntryContext );
+    const { entries, editEntry } = useContext( EntryContext );
     const { setIsDragging, isDragging } = useContext( UIContext );
 
     const entriesByStatus = useMemo(() => {
@@ -31,6 +31,16 @@ export const EntryList = ({ status }: Props) => {
 
     const onDropEntry = ( event: DragEvent<HTMLDivElement> ) => {
         const _id: string = event.dataTransfer.getData('text');
+
+        const entry: Entry|undefined = entries.find( e => e._id === _id );
+        
+        if( !entry ) return;
+
+        editEntry({
+            ...entry,
+            status
+        });
+        handleDrag(false);
     }
     
     const allowDrop = ( event: DragEvent<HTMLDivElement> ) => {

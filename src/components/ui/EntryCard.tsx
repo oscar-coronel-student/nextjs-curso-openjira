@@ -16,8 +16,6 @@ export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Prop
     }
 
     const onDragEnd = ( event: DragEvent<HTMLDivElement> ) => {
-        // todo: cancelar ondrag
-
         handleDrag(false);
     }
 

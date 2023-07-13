@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  entriesdb:
+    image: mongo:5.0.0
+    container_name: entries-database
+    volumes:
+      - ./mongo:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      name: value
+    restart: always

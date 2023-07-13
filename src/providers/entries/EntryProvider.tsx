@@ -2,9 +2,9 @@ import { useReducer } from 'react';
 
 import { EntryContext } from '../../context';
 import { entryInitState, entryReducer } from '@/src/reducers';
-import { AddEntry } from '@/src/actions';
+import { AddEntry, EditEntry } from '@/src/actions';
 import { getUUID } from '@/src/utils/general';
-import { EntryStatus } from '@/src/interfaces';
+import { Entry, EntryStatus } from '@/src/interfaces';
 
 
 interface Props {
@@ -23,12 +23,15 @@ export const EntryProvider = ({ children }: Props) => {
             status
         }))
     }
+    
+    const editEntry = (entryUpdated: Entry) => entryDispatch(EditEntry(entryUpdated));
 
     return <>
         <EntryContext.Provider
             value={{
                 ...entryState,
                 addEntry,
+                editEntry,
             }}
         >
             { children }
