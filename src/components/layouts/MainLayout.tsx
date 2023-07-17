@@ -16,7 +16,7 @@ export const MainLayout = ({ title, children }: Props) => {
       flexFlow: 1,
     }}>
       <Head>
-        <title>{ title ?? 'Open JIRA' }</title>
+        <title>{ title || 'Open JIRA' }</title>
       </Head>
 
       <Navbar />
