@@ -28,4 +28,5 @@ export interface EntryInitState {
 export type EntryReducerActions = 
     |{type: 'AddEntry', payload: Entry}
     |{type: 'EditEntry', payload: Entry}
+    |{type: 'RefreshEntries', payload: Entry[]}
 //#endregion

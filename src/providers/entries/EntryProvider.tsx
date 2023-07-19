@@ -1,10 +1,12 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 
 import { EntryContext } from '../../context';
 import { entryInitState, entryReducer } from '@/src/reducers';
-import { AddEntry, EditEntry } from '@/src/actions';
+import { AddEntry, EditEntry, RefreshEntries } from '@/src/actions';
 import { getUUID } from '@/src/utils/general';
 import { Entry, EntryStatus } from '@/src/interfaces';
+import { entriesApi } from '@/src/api';
+import { AllEntriesResponse, ApiEntry } from '@/src/interfaces/entries';
 
 
 interface Props {
@@ -25,6 +27,30 @@ export const EntryProvider = ({ children }: Props) => {
     }
     
     const editEntry = (entryUpdated: Entry) => entryDispatch(EditEntry(entryUpdated));
+    
+    const refreshEntries = (entries: Entry[]) => entryDispatch(RefreshEntries(entries));
+
+
+    const loadInitialData = async () => {
+        const { data: { data: allEntries } } = await entriesApi.get<AllEntriesResponse>('/entries');
+
+        const entriesForReducer: Entry[] = allEntries.map( (apiEntry): Entry => {
+            return {
+                _id: apiEntry._id,
+                description: apiEntry.description,
+                createdAt: apiEntry.createdAt,
+                status: apiEntry.status
+            }
+        });
+        refreshEntries(entriesForReducer);
+    }
+
+
+    useEffect(() => {
+        loadInitialData();
+    }, []);
+    
+
 
     return <>
         <EntryContext.Provider

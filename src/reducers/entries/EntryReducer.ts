@@ -1,3 +1,4 @@
+import entries from '@/pages/api/entries';
 import { EntryInitState, EntryReducerActions } from '@/src/interfaces';
 
 
@@ -8,6 +9,11 @@ export const entryInitState: EntryInitState = {
 export const entryReducer = ( state: EntryInitState, action: EntryReducerActions): EntryInitState => {
 
     switch( action.type ){
+        case 'RefreshEntries':
+            return {
+                ...state,
+                entries: [ ...action.payload ]
+            }
         case 'AddEntry':
             return {
                 ...state,
