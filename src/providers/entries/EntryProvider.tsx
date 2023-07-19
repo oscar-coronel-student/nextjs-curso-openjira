@@ -7,6 +7,7 @@ import { getUUID } from '@/src/utils/general';
 import { Entry, EntryStatus } from '@/src/interfaces';
 import { entriesApi } from '@/src/api';
 import { AllEntriesResponse, ApiEntry } from '@/src/interfaces/entries';
+import { IEntry } from '@/models';
 
 
 interface Props {
@@ -17,13 +18,16 @@ export const EntryProvider = ({ children }: Props) => {
 
     const [entryState, entryDispatch] = useReducer(entryReducer, entryInitState);
 
-    const addEntry = (description: string, status: EntryStatus) => {
-        entryDispatch(AddEntry({
-            _id: getUUID(),
-            description,
-            createdAt: new Date().getTime(),
-            status
-        }))
+    const addEntry = async (description: string, status: EntryStatus) => {
+        try {
+            const { data: newEntry } = await entriesApi.post<IEntry>('/entries', {
+                description,
+                status,
+            });
+            entryDispatch(AddEntry(newEntry));
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     const editEntry = (entryUpdated: Entry) => entryDispatch(EditEntry(entryUpdated));

@@ -31,12 +31,13 @@ const getEntries = async ( res: NextApiResponse<Data> ) => {
 }
 
 const createEntry = async ( req: NextApiRequest, res: NextApiResponse<Data> ) => {
-    const { description = '' } = req.body;
+    const { description = '', status = '' } = req.body;
 
     console.log(description);
 
     const newEntry = new Entry({ 
         description,
+        status,
         createdAt: new Date().getTime(),
     });
 
