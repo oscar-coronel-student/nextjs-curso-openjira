@@ -26,11 +26,21 @@ export const EntryProvider = ({ children }: Props) => {
             });
             entryDispatch(AddEntry(newEntry));
         } catch (error) {
-            console.log(error);
+            console.log({ error });
         }
     }
     
-    const editEntry = (entryUpdated: Entry) => entryDispatch(EditEntry(entryUpdated));
+    const editEntry = async ({ _id, description, status }: Entry) => {
+        try {
+            const { data: entryUpdated } = await entriesApi.put<IEntry>(`/entries/${ _id }`, {
+                description,
+                status
+            });
+            entryDispatch(EditEntry(entryUpdated));
+        } catch (error: any) {
+            console.log( error.response.data );
+        }
+    }
     
     const refreshEntries = (entries: Entry[]) => entryDispatch(RefreshEntries(entries));
 
