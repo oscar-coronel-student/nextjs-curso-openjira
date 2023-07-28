@@ -1,15 +1,22 @@
-import { useState, ChangeEvent } from 'react';
-import { MainLayout } from "@/src/components/layouts/MainLayout";
+import { useState, ChangeEvent, useMemo } from 'react';
+import { GetServerSideProps, NextPage } from 'next'
 import { capitalize, Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, IconButton } from "@mui/material";
+
+import { MainLayout } from "@/src/components/layouts/MainLayout";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 import { EntryStatus } from "@/src/interfaces";
+import { isValidObjectId } from 'mongoose';
 
 
-const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished']; 
+const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
 
-const EntryPage = () => {
+interface Props {
+    id: string
+}
+
+const EntryPage: NextPage<Props> = ({ id }) => {
 
     const [inputValue, setInputValue] = useState<string>('');
     const [status, setStatus] = useState<EntryStatus>('pending');
@@ -29,6 +36,10 @@ const EntryPage = () => {
              status
         });
     }
+
+    const isInputError: boolean = useMemo(() => {
+        return inputValue.length <= 0 && touched;
+    }, [touched, inputValue]);
 
     return <>
         <MainLayout title='...'>
@@ -53,6 +64,9 @@ const EntryPage = () => {
                                 label='Nueva entrada'
                                 value={ inputValue }
                                 onChange={ onChangeInputValue }
+                                helperText={ isInputError && 'Ingrese un valor' }
+                                onBlur={ () => setTouched(true) }
+                                error={ isInputError }
                             />
 
                             <FormControl>
@@ -81,6 +95,7 @@ const EntryPage = () => {
                                 variant='contained'
                                 fullWidth
                                 onClick={ onSave }
+                                disabled={ inputValue.length <= 0 }
                             >
                                 Save
                             </Button>
@@ -102,6 +117,26 @@ const EntryPage = () => {
 
         </MainLayout>
     </>
+}
+
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    const { id } = params as { id: string };
+
+    if( !isValidObjectId(id) ){
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            
+        }
+    }
 }
 
 export {
