@@ -1,4 +1,5 @@
 import { DragEvent, memo } from 'react';
+import { useRouter } from 'next/router';
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 
 import { Entry } from '@/src/interfaces';
@@ -10,6 +11,9 @@ interface Props extends Pick<Entry, '_id'|'description'|'createdAt'> {
 
 export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Props) => {
 
+    const router = useRouter();
+
+
     const onDragStart = ( event: DragEvent<HTMLDivElement> ) => {
         event.dataTransfer.setData('text', _id);
         handleDrag(true);
@@ -19,6 +23,11 @@ export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Prop
         handleDrag(false);
     }
 
+    const onClick = () => {
+        router.push(`/entries/${ _id }`);
+    }
+
+
     return <>
         <Card
             sx={{
@@ -27,6 +36,7 @@ export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Prop
             draggable
             onDragStart={ onDragStart }
             onDragEnd={ onDragEnd }
+            onClick={ onClick }
         >
             <CardActionArea>
                 <CardContent>

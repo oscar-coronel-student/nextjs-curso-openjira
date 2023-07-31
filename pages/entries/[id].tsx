@@ -7,19 +7,20 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 import { EntryStatus } from "@/src/interfaces";
-import { isValidObjectId } from 'mongoose';
+import { getEntryById } from '@/database';
+import { IEntry } from '@/models';
 
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
 
 interface Props {
-    id: string
+    entry: IEntry
 }
 
-const EntryPage: NextPage<Props> = ({ id }) => {
+const EntryPage: NextPage<Props> = ({ entry }) => {
 
-    const [inputValue, setInputValue] = useState<string>('');
-    const [status, setStatus] = useState<EntryStatus>('pending');
+    const [inputValue, setInputValue] = useState<string>( entry.description );
+    const [status, setStatus] = useState<EntryStatus>( entry.status );
     const [touched, setTouched] = useState<boolean>(false);
 
     const onChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,7 @@ const EntryPage: NextPage<Props> = ({ id }) => {
     }, [touched, inputValue]);
 
     return <>
-        <MainLayout title='...'>
+        <MainLayout title={ inputValue.substring(0,20) + '...' }>
             <Grid
                 container
                 justifyContent='center'
@@ -51,8 +52,8 @@ const EntryPage: NextPage<Props> = ({ id }) => {
                 <Grid item xs={ 12 } sm={ 8 } md={ 6 }>
                     <Card>
                         <CardHeader 
-                            title={ `Entrada: ${ inputValue }` }
-                            subheader={ `Creada hace: ... minutos` }
+                            title={ `Entrada:` }
+                            subheader={ `Creada hace: ${ entry.createdAt } minutos` }
                         />
                         <CardContent>
                             <TextField 
@@ -123,7 +124,9 @@ const EntryPage: NextPage<Props> = ({ id }) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const { id } = params as { id: string };
 
-    if( !isValidObjectId(id) ){
+    const entry = await getEntryById( id );
+
+    if( !entry ){
         return {
             redirect: {
                 destination: '/',
@@ -134,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
         props: {
-            
+            entry
         }
     }
 }
