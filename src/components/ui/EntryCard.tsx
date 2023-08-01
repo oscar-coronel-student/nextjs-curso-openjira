@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 
 import { Entry } from '@/src/interfaces';
+import { getFormatDistanceToNow } from '@/src/utils/general';
 
 
 interface Props extends Pick<Entry, '_id'|'description'|'createdAt'> {
@@ -44,7 +45,7 @@ export const EntryCard = memo(({ _id, description, createdAt, handleDrag }: Prop
                 </CardContent>
 
                 <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-                    <Typography variant='body2'>hace 30 minutos</Typography>
+                    <Typography variant='body2'>{ getFormatDistanceToNow( createdAt ) }</Typography>
                 </CardActions>
             </CardActionArea>
         </Card>

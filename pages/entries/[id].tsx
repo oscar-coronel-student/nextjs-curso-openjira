@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useMemo } from 'react';
+import { useState, ChangeEvent, useMemo, useContext } from 'react';
 import { GetServerSideProps, NextPage } from 'next'
 import { capitalize, Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, IconButton } from "@mui/material";
 
@@ -9,6 +9,8 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { EntryStatus } from "@/src/interfaces";
 import { getEntryById } from '@/database';
 import { IEntry } from '@/models';
+import { EntryContext } from '@/src/context';
+import { getFormatDistanceToNow } from '@/src/utils/general';
 
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
@@ -18,6 +20,8 @@ interface Props {
 }
 
 const EntryPage: NextPage<Props> = ({ entry }) => {
+
+    const { editEntry } = useContext( EntryContext );
 
     const [inputValue, setInputValue] = useState<string>( entry.description );
     const [status, setStatus] = useState<EntryStatus>( entry.status );
@@ -32,10 +36,13 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
     }
 
     const onSave = () => {
-        console.log({
-            inputValue,
-             status
-        });
+        if( inputValue.trim().length === 0 ) return;
+
+        editEntry({
+            ...entry,
+            description: inputValue,
+            status
+        }, true);
     }
 
     const isInputError: boolean = useMemo(() => {
@@ -53,7 +60,7 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
                     <Card>
                         <CardHeader 
                             title={ `Entrada:` }
-                            subheader={ `Creada hace: ${ entry.createdAt } minutos` }
+                            subheader={ `Creada ${ getFormatDistanceToNow(entry.createdAt) }` }
                         />
                         <CardContent>
                             <TextField 

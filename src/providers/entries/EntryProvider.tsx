@@ -1,12 +1,13 @@
 import { useEffect, useReducer } from 'react';
 
 import { EntryContext } from '../../context';
+import { useSnackbar } from 'notistack';
+
 import { entryInitState, entryReducer } from '@/src/reducers';
 import { AddEntry, EditEntry, RefreshEntries } from '@/src/actions';
-import { getUUID } from '@/src/utils/general';
 import { Entry, EntryStatus } from '@/src/interfaces';
 import { entriesApi } from '@/src/api';
-import { AllEntriesResponse, ApiEntry } from '@/src/interfaces/entries';
+import { AllEntriesResponse } from '@/src/interfaces/entries';
 import { IEntry } from '@/models';
 
 
@@ -17,6 +18,8 @@ interface Props {
 export const EntryProvider = ({ children }: Props) => {
 
     const [entryState, entryDispatch] = useReducer(entryReducer, entryInitState);
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const addEntry = async (description: string, status: EntryStatus) => {
         try {
@@ -30,13 +33,22 @@ export const EntryProvider = ({ children }: Props) => {
         }
     }
     
-    const editEntry = async ({ _id, description, status }: Entry) => {
+    const editEntry = async ({ _id, description, status }: Entry, showSnackbar: boolean = false) => {
         try {
             const { data: entryUpdated } = await entriesApi.put<IEntry>(`/entries/${ _id }`, {
                 description,
                 status
             });
             entryDispatch(EditEntry(entryUpdated));
+
+            showSnackbar && enqueueSnackbar('¡Entrada Editada!', {
+                variant: 'success',
+                autoHideDuration: 1500,
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right'
+                }
+            });
         } catch (error: any) {
             console.log( error.response.data );
         }

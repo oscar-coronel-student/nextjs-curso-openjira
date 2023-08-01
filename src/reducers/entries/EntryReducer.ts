@@ -6,7 +6,7 @@ export const entryInitState: EntryInitState = {
     entries: []
 }
 
-export const entryReducer = ( state: EntryInitState, action: EntryReducerActions): EntryInitState => {
+export const entryReducer = ( state: EntryInitState = entryInitState, action: EntryReducerActions): EntryInitState => {
 
     switch( action.type ){
         case 'RefreshEntries':
